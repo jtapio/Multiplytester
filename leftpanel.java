@@ -4,10 +4,6 @@
  * 
  * Muodostaa vasemman lohkon Swing Guista ja handlerit seuraavat nappien ja
  * teksikenttien toimintaa
- * 
- * Lisänä käytetään calculations.class luokkaa matemaattisiin toimintoihin
- * 
- * Ei ehkä kaunein, mutta toimii ja paljon on opittavaa vielä
  */
 import java.awt.BorderLayout;
 import java.awt.Dimension;
