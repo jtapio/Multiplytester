@@ -2,9 +2,7 @@
  * Janne Vanhatapio
  * Lapin AMK 2019
  * 
- * Muodostaa matemaattisten toimintojen luokan. Käytetään staattisena pitkälti
- * 
- * Ei ehkä kaunein, mutta toimii ja paljon on opittavaa vielä
+ * Muodostaa matemaattisten toimintojen luokan. 
  */import java.util.Random;
 
 public class Calculations {
