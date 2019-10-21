@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -32,7 +33,8 @@ public class LeftPanel extends JPanel {
 	private String apu;
 	
 	private StringListener textListener;
-	
+	private PanelListener eventListener;
+
 	boolean RaiseFlag;
 	
 	public LeftPanel() {
@@ -92,18 +94,14 @@ public class LeftPanel extends JPanel {
 		
 	}
 
-
+//Seuraa tekstikentän ruutua ja kun sinne syötetään PanelEvent vie tiedon PanelListenerin kautta MainFrameen
 	private class TekstiHandler implements ActionListener
 	{
 			public void actionPerformed(ActionEvent tapahtuma) {
 			    Object aiheuttaja = tapahtuma.getSource();
 			    if (aiheuttaja == answerField) {
-			calculations.setAnswer(Integer.parseInt(answerField.getText()));
-	//		nameLabel.setText(String.valueOf(controller.CheckAnswer()));
-		//	nameLabel.setText(String.valueOf(calculations.getanswer()));
-		//	System.out.println(calculations.getanswer());
-			calculations.setkertolaskufinal();
-			controller.CheckAnswer(calculations.getanswer(),calculations.getkertolaskufinal());
+			    	PanelEvent PE = new PanelEvent(this,getanswerField());
+			    	eventListener.PanelEventOccured(PE);
 		}
 		
 	} 
@@ -113,25 +111,37 @@ public class LeftPanel extends JPanel {
 		  public void actionPerformed(ActionEvent tapahtuma) {
 			    Object aiheuttaja = tapahtuma.getSource();
 			    if (aiheuttaja == TarkistaBtn) {
-		    	if (RaiseFlag) {
-			    		calculations.addkierros();
-			    		calculations.SetRndNumbers();
-			    		nameLabel.setText("Paljonko on " + calculations.getluku1() + " * "+ calculations.getluku2());
+			    	
+			    	//Tämä tekee eventin joka siirtää tietoa interfacen kautta MainFrameen "Vastaustieto"
+			    	PanelEvent PE = new PanelEvent(this,getanswerField());
+			    	
+			    		if (eventListener != null) {
+			       			eventListener.PanelEventOccured(PE);
+			       		}
+
 			    	}
-			    	else {
-			    		nameLabel.setText("Paljonko on " + calculations.getluku1() + " * "+ calculations.getluku2());
-			    	}
-			    }
+			  
+			    //Tämä tekee eventin joka siirtää tietoa interfacen kautta MainFrameen "RestartButton"
 			    if (aiheuttaja == AlustaBtn) {
-				    calculations.Reset();
-			    	calculations.SetRndNumbers();
-			    	nameLabel.setText("Paljonko on " + calculations.getluku1() + " * "+ calculations.getluku2());
+			    	PanelEvent PE = new PanelEvent(this,getanswerField());
+			    	
+			       	if (eventListener != null) {
+			       		eventListener.RestartEventOccured(PE);
+			       		
+			       	}
+			       	
 			    }
 			  			  
 		  }
 	}
-	// Käytetään tekstin "lähettämiseen" RightPaneliin Textfieldiin
+	
+	// Käytetään tekstin Välittämiseen RightPanelin Textfieldiin Interface > MainFramen kautta
 	public void setStringListener(StringListener listener) {
 		this.textListener = listener;
 	}
-}
+	//Eventhandlerin osa
+	public void setPanelListener(PanelListener listener) {
+		this.eventListener = listener;
+		
+	}
+	}
